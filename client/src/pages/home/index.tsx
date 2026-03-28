@@ -1,98 +1,167 @@
+"use client";
+
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { FileText, Award, Shield, ArrowRight, Download } from "lucide-react";
+import { FileText, Award, Shield, Download } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import ResponsiveLayout from "@/components/layout/ResponsiveLayout";
 
 export default function Home() {
+  const [, navigate] = useLocation();
+
+  const handleDownload = () => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+    if (!isLoggedIn) {
+      alert("Please login to download brochure");
+      navigate("/auth");
+    } else {
+      const link = document.createElement("a");
+      link.href = "/brochure.png";
+      link.download = "brochure.png";
+      link.click();
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-background relative selection:bg-green-500/20">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-green-500/5 via-background to-background pointer-events-none" />
-      
-      <Navbar />
+    <ResponsiveLayout>
+      <div className="min-h-screen text-gray-800 relative overflow-hidden bg-gradient-to-br from-[#f7f6f2] via-[#f3efe7] to-[#f7f6f2]">
 
-      <main className="pt-32">
-        {/* Hero Section */}
-        <section className="container mx-auto px-6 pt-20 pb-32">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              <h1 className="text-5xl md:text-7xl font-serif font-medium leading-tight mb-6 text-gray-900">
-                Preserve Wealth.<br />
-                <span className="green-gradient-text">Engineer Legacy.</span>
-              </h1>
-              <p className="text-lg md:text-xl text-muted-foreground font-light tracking-wide max-w-2xl mx-auto leading-relaxed">
-                Platform description will be placed here. This area is reserved for the primary value proposition and structural layout demonstration.
-              </p>
-            </motion.div>
+        {/* 🌿 glow */}
+        <div className="absolute top-0 right-0 w-[400px] sm:w-[500px] h-[400px] sm:h-[500px] bg-emerald-400/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 left-0 w-[300px] sm:w-[400px] h-[300px] sm:h-[400px] bg-yellow-400/10 blur-[120px] rounded-full" />
 
-            <motion.div 
-              className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-8"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.8 }}
-            >
-              <Button size="lg" className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white font-semibold tracking-wide shadow-md">
-                Client Portal <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto border-gray-300 hover:bg-gray-50 text-gray-700">
-                View Methodology
-              </Button>
-            </motion.div>
-          </div>
-        </section>
+        <Navbar />
 
-        {/* Brochure Section */}
-        <section className="py-24 relative border-y border-gray-100 bg-gray-50/50">
-          <div className="container mx-auto px-6">
-            <div className="grid md:grid-cols-2 gap-16 items-center">
-              <div className="space-y-6">
-                <div className="inline-flex items-center space-x-2 border border-green-500/30 bg-green-500/5 px-3 py-1 rounded-full text-green-600 text-xs font-semibold tracking-wider mb-4">
-                  <FileText className="w-3 h-3" />
-                  <span>INVESTMENT PROSPECTUS</span>
-                </div>
-                <h2 className="text-3xl md:text-4xl font-serif text-gray-900">Strategic Overview</h2>
-                <p className="text-muted-foreground font-light leading-relaxed">
-                  Detailed documentation regarding investment strategies, risk management protocols, and structural methodology will be available for review.
+        <main className="pt-24 sm:pt-32">
+
+          {/* HERO */}
+          <section className="container mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-20 sm:pb-32">
+            <div className="max-w-5xl mx-auto text-center space-y-8 sm:space-y-10">
+
+              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}>
+                <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-serif leading-[1.1] mb-6 tracking-tight">
+  PRESERVE WEALTH.<br />
+  <span className="text-yellow-500 tracking-wide drop-shadow-[0_2px_10px_rgba(255,200,0,0.25)]">
+    INVEST SMARTER.
+  </span>
+</h1>
+
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                  A premium financial platform designed to manage, protect, and grow capital with precision and long-term strategic intelligence.
                 </p>
-                <div className="pt-4 flex gap-4">
-                  <Button variant="outline" className="border-green-500 text-green-600 hover:bg-green-50 hover:text-green-700">
-                    <Download className="mr-2 h-4 w-4" /> Download PDF
-                  </Button>
-                </div>
+              </motion.div>
+
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 pt-6 sm:pt-10">
+                <Link href="/dashboard">
+                  <Button className="btn-primary w-full sm:w-auto">Client Portal</Button>
+                </Link>
+
+                <Button
+                  variant="outline"
+                  className="w-full sm:w-auto"
+                  onClick={() => {
+                    const section = document.getElementById("brochure");
+                    if (section) {
+                      const yOffset = -80;
+                      const y = section.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                      window.scrollTo({ top: y, behavior: "smooth" });
+                    }
+                  }}
+                >
+                  View Methodology
+                </Button>
               </div>
-              <div className="relative">
-                <div className="aspect-[3/4] rounded-xl glass-panel p-8 flex flex-col items-center justify-center text-center relative overflow-hidden group border-gray-200 shadow-lg">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-green-500/5 to-transparent group-hover:scale-105 transition-transform duration-700" />
-                  <FileText className="w-16 h-16 text-gray-300 mb-6" />
-                  <h3 className="font-serif text-xl mb-2 text-gray-700">Document Preview</h3>
-                  <p className="text-sm text-gray-400">Visual representation of brochure content will render here.</p>
+            </div>
+          </section>
+
+          {/* BROCHURE */}
+          <section id="brochure" className="py-16 sm:py-28 bg-[#f3efe7]/60 backdrop-blur-sm">
+            <div className="container mx-auto px-4 sm:px-6 text-center max-w-3xl space-y-6">
+
+              <div className="inline-flex items-center justify-center space-x-2 border px-4 py-1 rounded-full text-xs">
+                <FileText className="w-3 h-3" />
+                <span>INVESTMENT PROSPECTUS</span>
+              </div>
+
+              <h2 className="text-2xl sm:text-4xl md:text-5xl font-serif">
+                Strategic Overview
+              </h2>
+
+              <p className="text-muted-foreground leading-relaxed">
+                Comprehensive insights into portfolio structuring, risk frameworks, and long-term capital allocation strategies.
+              </p>
+
+              <Button onClick={handleDownload} className="w-full sm:w-auto">
+                <Download className="mr-2 h-4 w-4" />
+                Download Brochure
+              </Button>
+            </div>
+
+            <div className="mt-10 sm:mt-16 px-4 sm:px-6">
+              <div className="rounded-2xl overflow-hidden shadow-xl border">
+                <img src="/brochure.png" className="w-full object-cover object-top" />
+              </div>
+            </div>
+          </section>
+
+          {/* WHY + INSURANCE */}
+          <section className="py-16 sm:py-24 container mx-auto px-4 sm:px-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-16">
+
+              {/* LEFT */}
+              <div className="space-y-6">
+                <h2 className="text-2xl sm:text-3xl font-serif">Why Choose Us?</h2>
+
+                <ul className="space-y-4 text-sm sm:text-base text-muted-foreground">
+                  <li className="flex gap-3">• Trusted credit-union-backed savings</li>
+                  <li className="flex gap-3">• High returns with flexible terms</li>
+                  <li className="flex gap-3">• Safe and secure investment options</li>
+                  <li className="flex gap-3 text-yellow-500">• Designed to empower your financial goals</li>
+                </ul>
+              </div>
+
+              {/* RIGHT */}
+              <div className="glass-panel p-6 sm:p-8 rounded-2xl space-y-6">
+                <h2 className="text-2xl sm:text-3xl font-serif">Insurance Schemes</h2>
+
+                <div className="space-y-4">
+                  <div className="flex justify-between border-b pb-3">
+                    <span>Senior Citizen Insurance</span>
+                    <span className="text-emerald-600">up to $100,000</span>
+                  </div>
+
+                  <div className="flex justify-between">
+                    <span>All Citizens Insurance</span>
+                    <span className="text-emerald-600">up to $50,000</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
 
-        {/* Certifications Placeholder */}
-        <section className="py-24 container mx-auto px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-2xl font-serif text-gray-600">Regulatory & Compliance Framework</h2>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="glass-panel p-8 rounded-xl flex flex-col items-center justify-center text-center space-y-4 opacity-70 hover:opacity-100 hover:shadow-md transition-all duration-300">
-                {i % 2 === 0 ? <Award className="w-10 h-10 text-green-500/50" /> : <Shield className="w-10 h-10 text-gray-400" />}
-                <p className="text-xs tracking-widest text-muted-foreground uppercase">Certification Entity</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      </main>
+          {/* CERTIFICATIONS */}
+          <section className="py-16 sm:py-28 container mx-auto px-4 sm:px-6">
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-2xl sm:text-3xl font-serif">Compliance & Trust</h2>
+            </div>
 
-      <Footer />
-    </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="glass-panel p-6 sm:p-10 rounded-2xl flex flex-col items-center text-center space-y-4">
+                  {i % 2 === 0 ? <Award className="w-8 h-8" /> : <Shield className="w-8 h-8" />}
+                  <p className="text-xs uppercase">Certification Entity</p>
+                </div>
+              ))}
+            </div>
+          </section>
+
+        </main>
+
+        <Footer />
+      </div>
+    </ResponsiveLayout>
   );
 }
