@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -97,4 +98,3 @@ p { @apply text-sm sm:text-base md:text-base; }
 /* Cards full width on mobile */
 .card { @apply w-full sm:w-auto; }
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&display=swap');
