@@ -54,7 +54,7 @@ export function Footer() {
         </div>
         <div className="mt-12 pt-8 border-t border-gray-200 text-center text-xs text-muted-foreground">
           <p>This is a demonstration prototype. All information and data shown are placeholders.</p>
-          <p className="mt-2">&copy; {new Date().getFullYear()} Aurum. All rights reserved.</p>
+          <p className="mt-2">&copy; {new Date().getFullYear()} Alterna Savings. All rights reserved.</p>
         </div>
       </div>
     </footer>

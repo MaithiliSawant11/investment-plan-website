@@ -15,28 +15,25 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="fixed top-0 w-full z-50 backdrop-blur-lg bg-white/60 border-b border-black/5">
-      
+    <nav className="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl border-b border-black/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
 
         {/* LOGO */}
         <Link href="/">
-          <div className="flex items-center gap-2 cursor-pointer">
-            <h1 className="text-sm sm:text-lg md:text-xl font-[Playfair_Display] font-semibold tracking-[0.18em] bg-gradient-to-r from-emerald-600 to-emerald-400 bg-clip-text text-transparent">
-              ALTERNA SAVINGS
-            </h1>
-          </div>
+          <h1 className="text-lg sm:text-xl font-[Playfair_Display] font-semibold tracking-[0.18em] bg-gradient-to-r from-emerald-600 to-emerald-400 bg-clip-text text-transparent">
+            ALTERNA SAVINGS
+          </h1>
         </Link>
 
-        {/* DESKTOP NAV */}
+        {/* DESKTOP MENU */}
         <div className="hidden md:flex items-center space-x-10">
           {navItems.map((item) => (
             <Link key={item.name} href={item.path}>
               <a
-                className={`text-sm tracking-widest transition-all ${
+                className={`text-sm tracking-widest ${
                   location === item.path
                     ? "text-emerald-600"
-                    : "text-gray-600 hover:text-emerald-600"
+                    : "text-gray-500 hover:text-emerald-600"
                 }`}
               >
                 {item.name}
@@ -45,53 +42,38 @@ export function Navbar() {
           ))}
         </div>
 
-        {/* RIGHT SIDE */}
-        <div className="flex items-center gap-3">
-
-          {/* LOGIN BUTTON (Desktop only) */}
+        {/* LOGIN BUTTON */}
+        <div className="hidden md:block">
           <Link href="/auth">
-            <Button className="hidden md:inline-flex px-4 whitespace-nowrap">
-              Login
-            </Button>
+            <Button className="px-4">Login</Button>
           </Link>
-
-          {/* MOBILE MENU BUTTON */}
-          <button
-            className="md:hidden text-gray-800"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
         </div>
+
+        {/* MOBILE MENU BUTTON */}
+        <button
+          className="md:hidden"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          {isOpen ? <X /> : <Menu />}
+        </button>
       </div>
 
       {/* MOBILE MENU */}
       {isOpen && (
-        <div className="md:hidden bg-white shadow-lg border-t border-gray-100 flex flex-col items-center space-y-6 py-6">
-
+        <div className="md:hidden px-6 pb-6 space-y-4 bg-white border-t">
           {navItems.map((item) => (
             <Link key={item.name} href={item.path}>
               <a
+                className="block text-sm text-gray-700"
                 onClick={() => setIsOpen(false)}
-                className={`text-sm tracking-widest ${
-                  location === item.path
-                    ? "text-emerald-600"
-                    : "text-gray-700"
-                }`}
               >
                 {item.name}
               </a>
             </Link>
           ))}
 
-          {/* LOGIN BUTTON MOBILE */}
           <Link href="/auth">
-            <Button
-              onClick={() => setIsOpen(false)}
-              className="w-40"
-            >
-              Login
-            </Button>
+            <Button className="w-full">Login</Button>
           </Link>
         </div>
       )}
